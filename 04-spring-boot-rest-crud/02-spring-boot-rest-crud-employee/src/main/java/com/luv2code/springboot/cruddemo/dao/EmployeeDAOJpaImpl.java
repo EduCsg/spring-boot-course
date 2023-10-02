@@ -32,4 +32,35 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO {
         // returns the results
         return employees;
     }
+
+    @Override
+    public Employee findById(int theId) {
+        // get employee
+        @SuppressWarnings("UnnecessaryLocalVariable")
+        Employee theEmployee = entityManager.find(Employee.class, theId);
+
+        // return employee
+        return theEmployee;
+    }
+
+    @Override
+    public Employee save(Employee theEmployee) {
+        // save employee
+        // MERGE -> if id == 0, insert/save;
+        //                  Else, update;
+        @SuppressWarnings("UnnecessaryLocalVariable")
+        Employee dbEmployee = entityManager.merge(theEmployee);
+
+        // return the dbEmployee (ID from the database)
+        return dbEmployee;
+    }
+
+    @Override
+    public void deleteById(int theId) {
+        // find by id
+        Employee theEmployee = entityManager.find(Employee.class, theId);
+
+        // remove employee
+        entityManager.remove(theEmployee);
+    }
 }
